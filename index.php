@@ -1,24 +1,11 @@
 <?php
 require_once 'vendors/limonade.php';
 
-dispatch('/', 'hello');
-  function hello()
+dispatch('/webhook/:challenge', 'webhook');
+  function webhook()
   {
-      return 'Hello world from Limonade!';
+      return params('challenge');
   }
-
-dispatch('/test', 'test');
-        function test()
-        {
-            return "This should work...";
-        }
-
-dispatch('/hello_name/:name', 'hello_name');
-        function hello_name()
-        {
-            $name = params('name');
-            return "Hello $name";
-        }
 
 run();
 ?>
