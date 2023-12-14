@@ -1,11 +1,12 @@
 <?php
-require_once 'vendors/limonade.php';
 
-dispatch('/webhook/:challenge', 'webhook');
-  function webhook()
-  {
-      return params('challenge');
-  }
+require __DIR__ . '/vendor/autoload.php';
 
-run();
-?>
+$app = new Leaf\App();
+
+$app->get('/webhook', function () use($app) {
+	$challenge = request()->get('challenge');
+	echo "$challenge";
+});
+
+$app->run();

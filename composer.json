@@ -1,1 +1,6 @@
-{}
+{
+    "require": {
+        "leafs/leaf": "^3.0",
+        "leafs/http": "^2.3"
+    }
+}
