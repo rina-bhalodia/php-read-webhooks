@@ -8,6 +8,7 @@ global $webhook;
 $webhook = "Nothing here";
 
 $app->get('/', function() use($app){
+	global $webhook;
 	echo "$webhook";
 });
 
