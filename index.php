@@ -22,8 +22,6 @@ $app->post('/webhook', function () use($app) {
 	$json = file_get_contents('php://input');
 	$data = json_decode($json, true);
 	echo "<script>console.log('".$data."');</script>";
-	$test = request()->get('test');
-	echo "<script>console.log('".$test."');</script>";
 	#echo "file_get_contents('php://input')";
 	#$GLOBALS["webhook"] = "Hey! Ho!";
 	//echo "On Post!";
