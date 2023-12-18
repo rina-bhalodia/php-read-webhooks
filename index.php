@@ -18,8 +18,8 @@ $app->get('/webhook', function () use($app) {
 
 # Page for the Webhook to send the information to
 $app->post('/webhook', function () use($app) {
-	echo "<script>console.log('"On the Post"');</script>";
-	echo "<script>console.log('"file_get_contents('php://input')"');</script>";
+	echo "<script>console.log('On the Post');</script>";
+	echo "<script>console.log('".file_get_contents('php://input')."');</script>";
 	#echo "file_get_contents('php://input')";
 	#$GLOBALS["webhook"] = "Hey! Ho!";
 	//echo "On Post!";
