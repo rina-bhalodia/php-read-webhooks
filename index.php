@@ -4,7 +4,7 @@ require __DIR__ . '/vendor/autoload.php';
 
 $app = new Leaf\App();
 
-$webhook = ""
+$webhook = "";
 
 $app->get('/', function() use($app){
 	echo "$webhook";
