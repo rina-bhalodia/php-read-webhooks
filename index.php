@@ -20,6 +20,7 @@ $app->get('/webhook', function () use($app) {
 # Page for the Webhook to send the information to
 $app->post('/webhook', function () use($app) {
 	echo "<script>console.log('Running Post');</script>";
+	global $webhook;
 	$webhook = file_get_contents('php://input');
 	#$json = file_get_contents('php://input');
 	#$data = json_decode($json, true);
