@@ -4,6 +4,12 @@ require __DIR__ . '/vendor/autoload.php';
 
 $app = new Leaf\App();
 
+$webhook = ""
+
+$app->get('/', function() use($app){
+	echo "$webhook";
+});
+
 # This will be called to validate our webhook
 $app->get('/webhook', function () use($app) {
 	$challenge = request()->get('challenge');
@@ -23,7 +29,7 @@ $app->post('/webhook', function () use($app) {
     
 	$json = file_get_contents('php://input');
 	$data = json_decode($json, true);    
-    echo "$data";
+    $webhook = "$data";
 });
 
 function verify_signature($message, $key, $signature){
