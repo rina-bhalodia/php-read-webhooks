@@ -19,8 +19,7 @@ $app->get('/webhook', function () use($app) {
 # Page for the Webhook to send the information to
 $app->post('/webhook', function () use($app) {
 	echo "<script>console.log('Running Post');</script>";
-	$test = request()->headers('X-Nylas-Signature');
-	echo "<script>console.log('".$test."');</script>";
+	$GLOBALS["webhook"] = request()->headers('X-Nylas-Signature');
 	#$json = file_get_contents('php://input');
 	#$data = json_decode($json, true);
 	#echo "<script>console.log('".$data."');</script>";
