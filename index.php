@@ -18,8 +18,10 @@ $app->get('/webhook', function () use($app) {
 
 # Page for the Webhook to send the information to
 $app->post('/webhook', function () use($app) {
-	echo "file_get_contents('php://input')";
-	$GLOBALS["webhook"] = "Hey! Ho!";
+	echo "<script>console.log('"On the Post"');</script>";
+	echo "<script>console.log('"file_get_contents('php://input')"');</script>";
+	#echo "file_get_contents('php://input')";
+	#$GLOBALS["webhook"] = "Hey! Ho!";
 	//echo "On Post!";
 	//echo "file_get_contents('php://input')";
     //$is_genuine = verify_signature(file_get_contents('php://input'),
