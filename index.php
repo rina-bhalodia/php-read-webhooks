@@ -31,7 +31,7 @@ $app->post('/webhook', function () use($app) {
     
 	$json = file_get_contents('php://input');
 	$data = json_decode($json, true);    
-    $webhook = $data;
+    $GLOBALS["webhook"] = $data;
 });
 
 function verify_signature($message, $key, $signature){
