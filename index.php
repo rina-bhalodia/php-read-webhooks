@@ -18,6 +18,8 @@ $app->get('/webhook', function () use($app) {
 
 # Page for the Webhook to send the information to
 $app->post('/webhook', function () use($app) {
+	echo "On Post!";
+	echo "file_get_contents('php://input')";
     $is_genuine = verify_signature(file_get_contents('php://input'),
     utf8_encode(getenv('CLIENT_SECRET')),
 	request()->headers('X-Nylas-Signature'));
