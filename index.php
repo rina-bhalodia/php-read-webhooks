@@ -4,10 +4,10 @@ require __DIR__ . '/vendor/autoload.php';
 
 $app = new Leaf\App();
 
-$webhook = "";
+global $webhook = "Nothing here";
 
 $app->get('/', function() use($app){
-	echo $GLOBALS["webhook"];
+	echo "$webhook";
 });
 
 # This will be called to validate our webhook
@@ -19,7 +19,7 @@ $app->get('/webhook', function () use($app) {
 # Page for the Webhook to send the information to
 $app->post('/webhook', function () use($app) {
 	echo "<script>console.log('Running Post');</script>";
-	$GLOBALS["webhook"] = request()->headers('X-Nylas-Signature');
+	$webhook = file_get_contents('php://input');
 	#$json = file_get_contents('php://input');
 	#$data = json_decode($json, true);
 	#echo "<script>console.log('".$data."');</script>";
