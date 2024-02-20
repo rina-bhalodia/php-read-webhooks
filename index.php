@@ -54,7 +54,9 @@ $app->get('/webhook', function () use($app) {
 
 // Page for the Webhook to send the information to
 $app->post('/webhook', function () use($app) {
-	$json = file_get_contents('php://input');
+    $json = file_get_contents('php://input');
+    echo $json;
+/*	$json = file_get_contents('php://input');
 	$data = json_decode($json, true);
     $is_genuine = verify_signature(file_get_contents('php://input'),
     utf8_encode(getenv('CLIENT_SECRET')),
@@ -66,7 +68,7 @@ $app->post('/webhook', function () use($app) {
     }
     
 	$data = json_decode($json, true);    
-    echo $data;
+    echo $data;*/
 });
 
 function verify_signature($message, $key, $signature){
