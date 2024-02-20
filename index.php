@@ -54,6 +54,7 @@ $app->get('/webhook', function () use($app) {
 
 // Page for the Webhook to send the information to
 $app->post('/webhook', function () use($app) {
+    echo "Why you not calling me?";
     $json = file_get_contents('php://input');
     echo $json;
 /*	$json = file_get_contents('php://input');
