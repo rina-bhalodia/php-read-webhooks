@@ -57,7 +57,7 @@ $app->post('/webhook', function () use($app) {
     error_log(print_r("Posting a webhook", true));	
     $json = request()->body();
     $json2 = file_get_contents('php://input');
-    $head = request()->headers('X-Nylas-Signature')
+    $head = request()->headers('X-Nylas-Signature');
     error_log(print_r($json, true));
     error_log(print_r($json2, true));
     error_log(print_r($head, true));
