@@ -44,16 +44,16 @@ $app->post('/webhook', function () use($app) {
   $json = file_get_contents('php://input', true);
   //$body = request()->body();
   $data = json_decode($json, true);
-  error_log(print_r("JSON: $json", true));
-  //$is_genuine = verify_signature(file_get_contents('php://input'),
-  //                               utf8_encode(getenv('CLIENT_SECRET')),
-  //	                         request()->headers('X-Nylas-Signature'));
+  //error_log(print_r("JSON: $json", true));
+  $is_genuine = verify_signature(file_get_contents('php://input'),
+                                 utf8_encode(getenv('CLIENT_SECRET')),
+                                 request()->headers('X-Nylas-Signature'));
   //error_log(print_r("Is genuine: $is_genuine",true));	
   # Is it really coming from Nylas?	
-  //if(!$is_genuine){
-  //  response()->status(401)->plain('Signature verification failed!');
-  //}
-
+  if(!$is_genuine){
+    response()->status(401)->plain('Signature verification failed!');
+  }
+  error_log(print_r("$data["data"]["id"]"), true);
   response()->status(200)->plain('Webhook received');;
 });
 
