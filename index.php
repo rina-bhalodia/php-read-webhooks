@@ -21,6 +21,7 @@ $webhooks = array();
 
 $app->get('/init', function() use($app){
   $_SESSION['webhooks'] = array();
+  $_SESSION['test'] = "I'm a session";
 });
 
 $app->get('/', function() use($app, $blade){
@@ -48,16 +49,18 @@ $app->post('/webhook', function () use($app) {
                                  mb_convert_encoding(getenv('CLIENT_SECRET'), 'UTF-8', 'ISO-8859-1'),
                                  request()->headers('X-Nylas-Signature'));
   error_log(print_r("is_genuine: $is_genuine", true));
+  error_log(print_r("a session: $_SESSION['test']", true));  
   # Is it really coming from Nylas?	
   if(!$is_genuine){
     response()->status(401)->plain('Signature verification failed!');
   }
+  error_log("Time to save the webhook");
   $index = count($webhooks) + 1;
   $webhooks[$index] = new Webhook();
   $webhooks[$index]->id = $data->data->object->id;
   $webhooks[$index]->date = "11-22-1977";
   array_push($_SESSION['webhooks'], $webhooks);
-  error_log(print_r($data->data->object->id, true));  
+  error_log(print_r("id: $data->data->object->id", true));  
   response()->status(200)->plain('Webhook received');;
 });
 
