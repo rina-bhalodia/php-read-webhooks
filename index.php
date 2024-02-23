@@ -57,7 +57,7 @@ $app->post('/webhook', function () use($app) {
   $webhooks[$index]->id = $data->data->object->id;
   $webhooks[$index]->date = "11-22-1977";
   array_push($_SESSION['webhooks'], $webhooks);
-  error_log(print_r("Session: $_SESSION['webhooks']", true));  
+  error_log(print_r($webhooks[$index], true));  
   response()->status(200)->plain('Webhook received');;
 });
 
