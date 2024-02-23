@@ -40,19 +40,21 @@ $app->get('/webhook', function () use($app) {
 // Page for the Webhook to send the information to
 $app->post('/webhook', function () use($app) {
   error_log("POST WEBHOOK");
-  $json = file_get_contents('php://input');
+  $json = file_get_contents('php://input', true);
+  $body = request()->body();
   $data = json_decode($json, true);
   $is_genuine = verify_signature(file_get_contents('php://input'),
                                  utf8_encode(getenv('CLIENT_SECRET')),
 	                         request()->headers('X-Nylas-Signature'));
+
+  error_log(print_r($is_genuine,true));
+  error_log(print_r($data,true));
+  error_log(print_r($body, true));
 	
   # Is it really coming from Nylas?	
   if(!$is_genuine){
     response()->plain('Signature verification failed!', 401);
   }
-    
-  error_log(print_r($is_genuine,true));
-  error_log(print_r($data,true));
 });
 
 function verify_signature($message, $key, $signature){
