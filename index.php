@@ -49,7 +49,7 @@ $app->post('/webhook', function () use($app) {
                                  mb_convert_encoding(getenv('CLIENT_SECRET'), 'UTF-8', 'ISO-8859-1'),
                                  request()->headers('X-Nylas-Signature'));
   error_log(print_r("is_genuine: $is_genuine", true));
-  error_log(print_r("a session: $_SESSION['test']", true));  
+  error_log(print_r($_SESSION['test'], true));  
   # Is it really coming from Nylas?	
   if(!$is_genuine){
     response()->status(401)->plain('Signature verification failed!');
