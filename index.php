@@ -47,9 +47,10 @@ $app->post('/webhook', function () use($app) {
                                  utf8_encode(getenv('CLIENT_SECRET')),
 	                         request()->headers('X-Nylas-Signature'));
 
-  error_log(print_r($is_genuine,true));
-  error_log(print_r($data,true));
-  error_log(print_r($body, true));
+  error_log("Printing variables");	
+  error_log(print_r("Is genuine: $is_genuine",true));
+  error_log(print_r("Data: $data",true));
+  error_log(print_r("Body: $body", true));
 	
   # Is it really coming from Nylas?	
   if(!$is_genuine){
