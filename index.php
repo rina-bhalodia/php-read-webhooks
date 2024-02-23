@@ -39,6 +39,7 @@ $app->get('/webhook', function () use($app) {
 
 // Page for the Webhook to send the information to
 $app->post('/webhook', function () use($app) {
+  error_log("POST WEBHOOK");
   $json = file_get_contents('php://input');
   $data = json_decode($json, true);
   $is_genuine = verify_signature(file_get_contents('php://input'),
@@ -56,8 +57,8 @@ $app->post('/webhook', function () use($app) {
 });
 
 function verify_signature($message, $key, $signature){
-	$digest = hash_hmac('sha256', $message, $key);
-	return(hash_equals($digest, $signature));
+  $digest = hash_hmac('sha256', $message, $key);
+  return(hash_equals($digest, $signature));
 }
 
 $app->run();
