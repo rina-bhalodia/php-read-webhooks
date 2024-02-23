@@ -44,7 +44,6 @@ $app->post('/webhook', function () use($app) {
   $json = file_get_contents('php://input', true);
   $body = request()->body();
   $data = json_decode($json, true);
-  error_log(print_r("Data: $data",true));
   error_log(print_r("Body: $body", true));
   $is_genuine = verify_signature(file_get_contents('php://input'),
                                  utf8_encode(getenv('CLIENT_SECRET')),
