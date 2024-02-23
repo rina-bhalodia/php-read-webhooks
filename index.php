@@ -51,9 +51,8 @@ $app->post('/webhook', function () use($app) {
     response()->plain('Signature verification failed!', 401);
   }
     
-  $data = json_decode($json, true);    
-  error_log("$data");
-  //echo $data;
+  error_log(print_r($is_genuine,true));
+  error_log(print_r($data,true));
 });
 
 function verify_signature($message, $key, $signature){
