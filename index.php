@@ -52,8 +52,10 @@ $app->post('/webhook', function () use($app) {
 	                         request()->headers('X-Nylas-Signature'));
   # Is it really coming from Nylas?	
   if(!$is_genuine){
-    response()->plain('Signature verification failed!', 401);
+    response()->status(401)->plain('Signature verification failed!');
   }
+
+  response()->status(200)->plain('Webhook received');;
 });
 
 function verify_signature($message, $key, $signature){
