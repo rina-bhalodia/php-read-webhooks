@@ -49,13 +49,15 @@ $app->post('/webhook', function () use($app) {
                                  request()->headers('X-Nylas-Signature'));
   error_log(print_r("is_genuine: $is_genuine", true));
   # Is it really coming from Nylas?	
-  //if(!$is_genuine){
-  //  response()->status(401)->plain('Signature verification failed!');
-  //}
+  if(!$is_genuine){
+    response()->status(401)->plain('Signature verification failed!');
+  }
   $index = count($webhooks) + 1;
   $webhooks[$index] = new Webhook();
   $webhooks[$index]->id = $data->data->object->id;
+  $webhooks[$index]->date = "11-22-1977";
   array_push($_SESSION['webhooks'], $webhooks);
+  error_log(print_r("Session: $_SESSION['webhooks']", true));  
   response()->status(200)->plain('Webhook received');;
 });
 
