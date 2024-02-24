@@ -22,7 +22,8 @@ $app->get('/', function() use($app, $blade){
   $test = session()->get('test');
   error_log( print_r( $test, true ) );
   error_log( print_r( $webhooks, true ) );
-  echo $blade->render('webhooks', ['webhooks' => $webhooks]);
+  echo $test;
+  //echo $blade->render('webhooks', ['webhooks' => $webhooks]);
 });
 
 // This will be called to validate our webhook
