@@ -44,13 +44,15 @@ $app->post('/webhook', function () use($app) {
   //$webhooks[$index]->id = $data->data->object->id;
   $webhooks = session()->get('webhooks');
   if (is_null($webhooks)){
-	  $webhooks = array();
+    $webhooks = array();
   }
   $index = count($webhooks) + 1;
   $webhooks[$index] = new Webhook();
   $webhooks[$index]->id = $data->data->object->id;
   $webhooks[$index]->date = '1/1/2021';
   session()->set('webhooks', $webhooks);
+  error_log(var_dump($webhooks), true); 
+  error_log("Webhook was saved");	
   //$webhooks[$index]->date = "11-22-1977";
   response()->status(200)->plain('Webhook received');
 });
