@@ -32,7 +32,7 @@ $app->get('/webhook', function () use($app) {
 $app->post('/webhook', function () use($app) {
   error_log("POST WEBHOOK");
   $json = file_get_contents('php://input', true);
-  $data = json_decode($json, true);
+  $data = json_decode($json);
   //$is_genuine = verify_signature(file_get_contents('php://input'),
   //                               mb_convert_encoding(getenv('CLIENT_SECRET'), 'UTF-8', 'ISO-8859-1'),
   //                               request()->headers('X-Nylas-Signature'));
@@ -48,7 +48,7 @@ $app->post('/webhook', function () use($app) {
   }
   $index = count($webhooks) + 1;
   $webhooks[$index] = new Webhook();
-  $webhooks[$index]->id = $data[0]->data->object->id;
+  $webhooks[$index]->id = $data->data->object->id;
   $webhooks[$index]->date = '1/1/2021';
   session()->set('webhooks', $webhooks);
   error_log(var_dump($webhooks), true); 
