@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e9752bedb929fa4aaafa315be0ce1c47",
+    "content-hash": "be39e611ebfb6f5d9dac2bf1d27c83fa",
     "packages": [
         {
             "name": "carbonphp/carbon-doctrine-types",
@@ -1224,6 +1224,74 @@
                 }
             ],
             "time": "2023-06-30T09:40:09+00:00"
+        },
+        {
+            "name": "leafs/session",
+            "version": "v2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/leafsphp/session.git",
+                "reference": "917f7919a95191372a5b6860061d1c1c19c5c8b7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/leafsphp/session/zipball/917f7919a95191372a5b6860061d1c1c19c5c8b7",
+                "reference": "917f7919a95191372a5b6860061d1c1c19c5c8b7",
+                "shasum": ""
+            },
+            "require": {
+                "leafs/anchor": "*"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.0",
+                "pestphp/pest": "^1.21"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/functions.php"
+                ],
+                "psr-4": {
+                    "Leaf\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Darko",
+                    "email": "mickdd22@gmail.com",
+                    "homepage": "https://mychi.netlify.app",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Leaf PHP session + flash modules",
+            "homepage": "https://leafphp.dev/modules/session/",
+            "keywords": [
+                "flash",
+                "framework",
+                "http",
+                "leaf",
+                "php",
+                "session"
+            ],
+            "support": {
+                "issues": "https://github.com/leafsphp/session/issues",
+                "source": "https://github.com/leafsphp/session/tree/v2.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/leafsphp",
+                    "type": "github"
+                },
+                {
+                    "url": "https://opencollective.com/leaf",
+                    "type": "open_collective"
+                }
+            ],
+            "time": "2023-07-09T16:59:55+00:00"
         },
         {
             "name": "nesbot/carbon",
