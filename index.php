@@ -22,7 +22,7 @@ $app->get('/', function() use($app, $blade){
   $test = session()->get('test');
   error_log( print_r( $test, true ) );
   error_log( print_r( $webhooks, true ) );
-  echo $test;
+  phpinfo();
   //echo $blade->render('webhooks', ['webhooks' => $webhooks]);
 });
 
