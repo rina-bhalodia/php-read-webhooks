@@ -19,11 +19,7 @@ class Webhook
 
 $app->get('/', function() use($app, $blade){
   $webhooks = session()->get('webhooks');
-  $test = session()->get('test');
-  error_log( print_r( $test, true ) );
-  error_log( print_r( $webhooks, true ) );
-  phpinfo();
-  //echo $blade->render('webhooks', ['webhooks' => $webhooks]);
+  echo $blade->render('webhooks', ['webhooks' => $webhooks]);
 });
 
 // This will be called to validate our webhook
@@ -55,7 +51,6 @@ $app->post('/webhook', function () use($app) {
   $webhooks[$index]->id = $data->data->object->id;
   $webhooks[$index]->date = '1/1/2021';
   session()->set('webhooks', $webhooks);
-  session()->set('test', "Cheko");
   error_log("Webhook was saved");
   response()->status(200)->plain('Webhook received');
 });
