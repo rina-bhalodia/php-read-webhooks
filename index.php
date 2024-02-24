@@ -51,7 +51,9 @@ $app->post('/webhook', function () use($app) {
   $webhooks[$index]->id = $data->data->object->id;
   $webhooks[$index]->date = '1/1/2021';
   session()->set('webhooks', $webhooks);
-  error_log("Webhook was saved");	
+  error_log( print_r( $data->data->object->id, true ) );
+  error_log( print_r( $webhooks, true ) );
+  error_log("Webhook was saved");
   //$webhooks[$index]->date = "11-22-1977";
   response()->status(200)->plain('Webhook received');
 });
