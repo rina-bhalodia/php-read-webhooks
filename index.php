@@ -20,12 +20,15 @@ class Webhook
 $webhooks = array();
 
 $app->get('/init', function() use($app){
-  $_SESSION['webhooks'] = array();
-  $_SESSION['test'] = "I'm a session";
+  session()->set('item', 'Cheko');
+  //$_SESSION['webhooks'] = array();
+  //$_SESSION['test'] = "I'm a session";
 });
 
 $app->get('/', function() use($app, $blade){
-  echo $blade->render('webhooks', ['webhooks' => $_SESSION['webhooks']]);
+  $item = session()->get('item');
+  echo $item;
+  //echo $blade->render('webhooks', ['webhooks' => $_SESSION['webhooks']]);
 });
 
 $app->get('/clear', function() use ($app){
