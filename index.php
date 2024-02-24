@@ -5,6 +5,8 @@ use Leaf\Blade;
 
 $app = new Leaf\App();
 $blade = new Blade('views', 'storage/cache');
+ini_set('session.save_path', 'data');
+session_start();
 
 class Webhook
 {
