@@ -18,8 +18,11 @@ class Webhook
 }
 
 $app->get('/', function() use($app, $blade){
-  $webhooks = $_SESSION['webhooks'];
-  echo $blade->render('webhooks', ['webhooks' => $webhooks]);
+  var_dump($_SESSION);    
+  //if (isset($_SESSION['webhooks'])){   
+  //}
+  //$webhooks = $_SESSION['webhooks'];
+  //echo $blade->render('webhooks', ['webhooks' => $webhooks]);
 });
 
 // This will be called to validate our webhook
