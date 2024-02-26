@@ -1,5 +1,7 @@
 <?php
-session_start();
+if(!isset($_SESSION)) {
+   session_start();
+}
 
 require __DIR__ . '/vendor/autoload.php';
 use Leaf\Blade;
