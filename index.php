@@ -60,6 +60,7 @@ $app->post('/webhook', function () use($app) {
   error_log("Webhook was saved");
   var_dump($_SESSION['webhooks']);
   response()->status(200)->plain('Webhook received');
+  header('Location: '.$_SERVER['PHP_SELF']); 
   exit();
 });
 
