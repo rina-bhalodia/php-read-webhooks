@@ -18,8 +18,6 @@ class Webhook
 }
 
 $app->get('/', function() use($app, $blade){
-  error_log( print_r(session()->get('webhooks'), true) );
-  var_dump($_SESSION['webhooks']);
   $webhooks = $_SESSION['webhooks'];
   echo $blade->render('webhooks', ['webhooks' => $webhooks]);
 });
