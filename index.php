@@ -18,7 +18,6 @@ class Webhook
 }
 
 $app->get('/', function() use($app, $blade){
-  session_start();  
   error_log( print_r(session()->get('webhooks'), true) );
   var_dump(session()->get('webhooks'));
   $webhooks = session()->get('webhooks');
@@ -33,7 +32,6 @@ $app->get('/webhook', function () use($app) {
 
 // Page for the Webhook to send the information to
 $app->post('/webhook', function () use($app) {
-  session_start();  
   error_log("POST WEBHOOK");
   $json = file_get_contents('php://input', true);
   $data = json_decode($json);
