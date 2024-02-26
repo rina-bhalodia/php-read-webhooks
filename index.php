@@ -20,6 +20,9 @@ class Webhook
 }
 
 $app->get('/', function() use($app, $blade){
+  if(!isset($_SESSION)) {
+     session_start();
+  }   
   var_dump($_SESSION);    
   //if (isset($_SESSION['webhooks'])){   
   //}
