@@ -53,7 +53,7 @@ $app->post('/webhook', function () use($app) {
   $webhooks[$index]->date = '1/1/2021';
   session()->set('webhooks', $webhooks);
   error_log("Webhook was saved");
-  var_dump(session()->get('webhooks');
+  var_dump(session()->get('webhooks'));
   response()->status(200)->plain('Webhook received');
   exit();
 });
