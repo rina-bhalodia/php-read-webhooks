@@ -1,5 +1,5 @@
 <?php
-ini_set('session.save_path', 'data');
+//ini_set('session.save_path', 'data');
 session_start();
   
 require __DIR__ . '/vendor/autoload.php';
