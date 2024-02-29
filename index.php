@@ -51,7 +51,7 @@ $app->post('/webhook', function () use($app, $db) {
     foreach($session_id as $session){
       $id = $session["id"];
     }
-  
+  # Read the webhook information
   $json = file_get_contents('php://input', true);
   $data = json_decode($json);
   $is_genuine = verify_signature(file_get_contents('php://input'),
