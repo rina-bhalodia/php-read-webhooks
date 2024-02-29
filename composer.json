@@ -2,7 +2,6 @@
     "require": {
         "leafs/leaf": "^3.0",
         "leafs/http": "^2.3",
-        "leafs/blade": "^2.0",
-        "leafs/session": "^2.0"
+        "leafs/blade": "^2.0"
     }
 }
