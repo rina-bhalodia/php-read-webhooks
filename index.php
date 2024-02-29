@@ -18,7 +18,7 @@ class Webhook
     public $status;
 }
 
-$app->get('/', function() use($app, $blade, $db){
+$app->get('/', function() use($app, $blade){
 
   $session_id =  array();
   foreach($session_id as $session){
@@ -45,13 +45,13 @@ $app->get('/webhook', function () use($app) {
 });
 
 // Page for the Webhook to send the information to
-$app->post('/webhook', function () use($app, $db) {
+$app->post('/webhook', function () use($app) {
     $id = session()->id();
     $session_id = array();
     foreach($session_id as $session){
       $id = $session["id"];
     }
-  # Read the webhook information
+  
   $json = file_get_contents('php://input', true);
   $data = json_decode($json);
   $is_genuine = verify_signature(file_get_contents('php://input'),
