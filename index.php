@@ -20,7 +20,7 @@ class Webhook
 
 $app->get('/', function() use($app, $blade){
 
-  $session_id =  array();
+  /*$session_id =  array();
   foreach($session_id as $session){
       $id = $session["id"];
   }
@@ -29,7 +29,8 @@ $app->get('/', function() use($app, $blade){
     session_destroy();
     session_id($id);
     session_start();
-  }
+  }*/
+  
     if(isset($_SESSION['webhooks'])){
         $webhooks = $_SESSION['webhooks'];
         echo $blade->render('webhooks', ['webhooks' => $webhooks]);
@@ -46,11 +47,11 @@ $app->get('/webhook', function () use($app) {
 
 // Page for the Webhook to send the information to
 $app->post('/webhook', function () use($app) {
-    $id = session()->id();
+    /*$id = session()->id();
     $session_id = array();
     foreach($session_id as $session){
       $id = $session["id"];
-    }
+    }*/
   
   $json = file_get_contents('php://input', true);
   $data = json_decode($json);
