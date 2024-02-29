@@ -51,7 +51,7 @@ $app->get('/webhook', function () use($app) {
 $app->post('/webhook', function () use($app, $db) {
     $id = session()->id();
     $session_id =  $db->select('session');
-    var_dump($session_id);
+
     foreach($session_id as $session){
       $id = $session["id"];
     }
@@ -103,7 +103,6 @@ $app->post('/webhook', function () use($app, $db) {
   $webhooks[$index]->participants = $participants_list;
   $webhooks[$index]->status = $data->data->object->status;
   $_SESSION['webhooks'] = $webhooks;
-  var_dump($_SESSION['webhooks']);
   error_log("Webhook was saved");
   response()->status(200)->plain('Webhook received');
   exit();
