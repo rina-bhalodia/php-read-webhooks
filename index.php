@@ -56,13 +56,13 @@ $app->post('/webhook', function () use($app, $db) {
   
   $json = file_get_contents('php://input', true);
   $data = json_decode($json);
-  //$is_genuine = verify_signature(file_get_contents('php://input'),
-  //                               mb_convert_encoding(getenv('CLIENT_SECRET'), 'UTF-8', 'ISO-8859-1'),
-  //                               request()->headers('X-Nylas-Signature'));
+  $is_genuine = verify_signature(file_get_contents('php://input'),
+                                 mb_convert_encoding(getenv('CLIENT_SECRET'), 'UTF-8', 'ISO-8859-1'),
+                                 request()->headers('X-Nylas-Signature'));
   # Is it really coming from Nylas? 
-  //if(!$is_genuine){
-  //  response()->status(401)->plain('Signature verification failed!');
-  //}
+  if(!$is_genuine){
+    response()->status(401)->plain('Signature verification failed!');
+  }
   error_log("Time to save the webhook");
 
   if(isset($_SESSION['webhooks'])){
@@ -99,7 +99,7 @@ $app->post('/webhook', function () use($app, $db) {
       $participants_list = $participants_list . " " . $participant . ","; 
   }
   $participants_list = rtrim($participants_list, ",");
-  
+ 
   $webhooks[$index]->date = $event_datetime;
   $webhooks[$index]->title = $data->data->object->title;
   $webhooks[$index]->description = $data->data->object->description;
