@@ -3,12 +3,10 @@ ini_set('session.save_path', 'data');
 session_start();
   
 require __DIR__ . '/vendor/autoload.php';
-require("txtdb.class.php");
 use Leaf\Blade;
 
 $app = new Leaf\App();
 $blade = new Blade('views', 'storage/cache');
-$db = new TxtDb();
 
 class Webhook
 {
