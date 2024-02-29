@@ -3,10 +3,12 @@ ini_set('session.save_path', 'data');
 session_start();
   
 require __DIR__ . '/vendor/autoload.php';
+require("txtdb.class.php");
 use Leaf\Blade;
 
 $app = new Leaf\App();
 $blade = new Blade('views', 'storage/cache');
+$db = new TxtDb();
 
 class Webhook
 {
@@ -18,18 +20,19 @@ class Webhook
     public $status;
 }
 
-$app->get('/', function() use($app, $blade){
-
-  $session_id =  array();
-  foreach($session_id as $session){
-      $id = $session["id"];
-  }
+$app->get('/', function() use($app, $blade, $db){
   
-  if(isset($id)){
-    session_destroy();
-    session_id($id);
-    session_start();
-  }
+        $session_id =  $db->select('session');
+        foreach($session_id as $session){
+          $id = $session["id"];
+        }
+        
+        if(!isset($_SESSION['webhooks']) && count($session_id) > 0){
+          session_destroy();
+          session_id($id);
+          session_start();			
+		}
+  
     if(isset($_SESSION['webhooks'])){
         $webhooks = $_SESSION['webhooks'];
         echo $blade->render('webhooks', ['webhooks' => $webhooks]);
@@ -45,22 +48,26 @@ $app->get('/webhook', function () use($app) {
 });
 
 // Page for the Webhook to send the information to
-$app->post('/webhook', function () use($app) {
+$app->post('/webhook', function () use($app, $db) {
     $id = session()->id();
-    $session_id = array();
+    $session_id =  $db->select('session');
+    var_dump($session_id);
     foreach($session_id as $session){
       $id = $session["id"];
     }
+    if(isset($session_id) && count($session_id) === 0){
+          $db->insert("session", ["id" => $id]);
+	   }
   
   $json = file_get_contents('php://input', true);
   $data = json_decode($json);
-  $is_genuine = verify_signature(file_get_contents('php://input'),
-                                 mb_convert_encoding(getenv('CLIENT_SECRET'), 'UTF-8', 'ISO-8859-1'),
-                                 request()->headers('X-Nylas-Signature'));
+  //$is_genuine = verify_signature(file_get_contents('php://input'),
+  //                               mb_convert_encoding(getenv('CLIENT_SECRET'), 'UTF-8', 'ISO-8859-1'),
+  //                               request()->headers('X-Nylas-Signature'));
   # Is it really coming from Nylas? 
-  if(!$is_genuine){
-    response()->status(401)->plain('Signature verification failed!');
-  }
+  //if(!$is_genuine){
+  //  response()->status(401)->plain('Signature verification failed!');
+  //}
   error_log("Time to save the webhook");
 
   if(isset($_SESSION['webhooks'])){
@@ -82,14 +89,6 @@ $app->post('/webhook', function () use($app) {
         $et = $et->format('Y-m-d H:i:s');
         $event_datetime = "From " . $st . " to " . $et;
       break;
-      case "datespan":
-        $s_t = $data->data->object->when->start_date;
-        $e_t = $data->data->object->when->end_date;
-        $event_datetime = "From " . $st . " to " . $et;
-      break;
-      case "date":
-        $event_datetime = $data->data->object->when->date;
-      break;      
   }
   $participants = $data->data->object->participants;
   $participants_list = "";
@@ -97,7 +96,7 @@ $app->post('/webhook', function () use($app) {
       $participants_list = $participants_list . " " . $participant . ","; 
   }
   $participants_list = rtrim($participants_list, ",");
- 
+  
   $webhooks[$index]->date = $event_datetime;
   $webhooks[$index]->title = $data->data->object->title;
   $webhooks[$index]->description = $data->data->object->description;
