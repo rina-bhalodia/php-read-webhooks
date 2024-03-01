@@ -84,6 +84,7 @@ $app->post('/webhook', function () use($app, $db) {
   # Is it really coming from Nylas? 
   if(!$is_genuine){
     response()->status(401)->plain('Signature verification failed!');
+    exit();
   }
   error_log("Time to save the webhook");
 
