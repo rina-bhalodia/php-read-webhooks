@@ -78,13 +78,13 @@ $app->post('/webhook', function () use($app, $db) {
   $json = file_get_contents('php://input', true);
   // Decode the json
   $data = json_decode($json);
-  //$is_genuine = verify_signature(file_get_contents('php://input'),
-  //                               mb_convert_encoding(getenv('CLIENT_SECRET'), 'UTF-8', 'ISO-8859-1'),
-  //                               request()->headers('X-Nylas-Signature'));
+  $is_genuine = verify_signature(file_get_contents('php://input'),
+                                 mb_convert_encoding(getenv('CLIENT_SECRET'), 'UTF-8', 'ISO-8859-1'),
+                                 request()->headers('X-Nylas-Signature'));
   # Is it really coming from Nylas? 
-  //if(!$is_genuine){
-  //  response()->status(401)->plain('Signature verification failed!');
-  //}
+  if(!$is_genuine){
+    response()->status(401)->plain('Signature verification failed!');
+  }
   error_log("Time to save the webhook");
 
   // Do we have session information stored?
