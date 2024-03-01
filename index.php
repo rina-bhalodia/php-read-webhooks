@@ -59,6 +59,7 @@ $app->get('/webhook', function () use($app) {
 
 // Page for the Webhook to send the information to
 $app->post('/webhook', function () use($app, $db) {
+  error_log("Posting the webhook");
   // Grab the current session id
   $id = session_id();
   // Do we have a session recorded?
