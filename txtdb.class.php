@@ -18,7 +18,7 @@ class txtdb {
 	 *
 	 * @var string
 	 */
-	private $_db_dir = __DIR__ . '/db/';
+	private $_db_dir = __DIR__ . '/database/';
 
 	/**
 	 * The name of the default db file
