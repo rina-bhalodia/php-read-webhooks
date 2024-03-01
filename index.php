@@ -49,7 +49,7 @@ $app->get('/webhook', function () use($app) {
 
 // Page for the Webhook to send the information to
 $app->post('/webhook', function () use($app, $db) {
-    $id = session()->id();
+    $id = session_id(); //session()->id();
     $session_id =  $db->select('session');
 
     foreach($session_id as $session){
