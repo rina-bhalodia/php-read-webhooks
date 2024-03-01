@@ -84,7 +84,7 @@ $app->post('/webhook', function () use($app, $db) {
   //                               request()->headers('X-Nylas-Signature'));
   # Is it really coming from Nylas? 
   error_log("Coming from Nylas " . $is_genuine);
- 
+  error_log("Signature " . request()->headers('X-Nylas-Signature')); 
   //if(!$is_genuine){
   //  response()->status(401)->plain('Signature verification failed!');
   //  exit();
