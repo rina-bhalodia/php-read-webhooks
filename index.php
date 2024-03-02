@@ -36,6 +36,7 @@ $app->get('/webhook', function () use($app) {
 
 // Page for the Webhook to send the information to
 $app->post('/webhook', function () use($app, $db) {
+  error_log("Calling the Webhook");
   // Read the webhook information
   $json = file_get_contents('php://input', true);
   // Decode the json
