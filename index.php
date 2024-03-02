@@ -1,5 +1,5 @@
 <?php
-  // Load dependencies
+// Load dependencies
 require __DIR__ . '/vendor/autoload.php';
 require("txtdb.class.php");
 use Leaf\Blade;
@@ -12,18 +12,18 @@ $db = new TxtDb();
 // Class to hold Webhooks information
 class Webhook
 {
-    public $id;
-    public $date;
-    public $title;
-    public $description;
-    public $participants;
-    public $status;
+	public $id;
+	public $date;
+	public $subject;
+	public $from_email;
+	public $from_name;
 }
 
 // Main page
 $app->get('/', function() use($app, $blade, $db){
   // Check our text db for a recorded session
   $webhooks =  $db->select('webhooks');
+  // Display it
   echo $blade->render('webhooks', ['webhooks' => $webhooks]);
 });
 
@@ -36,64 +36,31 @@ $app->get('/webhook', function () use($app) {
 
 // Page for the Webhook to send the information to
 $app->post('/webhook', function () use($app, $db) {
-  error_log("Calling the Webhook");
   // Read the webhook information
   $json = file_get_contents('php://input', true);
-  error_log($json);
-  
   // Decode the json
   $data = json_decode($json);
-  error_log($data);
-  /*$is_genuine = verify_signature(file_get_contents('php://input'),
+  $is_genuine = verify_signature(file_get_contents('php://input'),
                                  mb_convert_encoding(getenv('CLIENT_SECRET'), 'UTF-8', 'ISO-8859-1'),
                                  request()->headers('X-Nylas-Signature'));
   # Is it really coming from Nylas? 
   if(!$is_genuine){
     response()->status(401)->plain('Signature verification failed!');
-    exit();
-  }*/
+  }
   error_log("Time to save the webhook");
 
-  // Do we have session information stored?
-  /*if(isset($_SESSION['webhooks'])){
-    $webhooks = $_SESSION['webhooks'];
-  }else{
-    // No, we don't. But we need a variable
-    $webhooks = array();
-  }
-  // Increase the webhook counter
-  $index = count($webhooks) + 1;
-  // Create a new webhook object
-  $webhooks[$index] = new Webhook();
+  $webhook = new Webhook();
   // Fetch all the webhook information
-  $webhooks[$index]->id = $data->data->object->id;
-  $event_datetime = "";
-  switch($data->data->object->when->object){
-      case "timespan":
-        $s_t = $data->data->object->when->start_time;
-        $st = new DateTime("@$s_t");
-        $st = $st->format('Y-m-d H:i:s'); 
-        $e_t = $data->data->object->when->end_time;
-        $et = new DateTime("@$e_t");
-        $et = $et->format('Y-m-d H:i:s');
-        $event_datetime = "From " . $st . " to " . $et;
-      break;
-  }
-  $participants = $data->data->object->participants;
-  $participants_list = "";
-  foreach($participants as $participant){
-      $participants_list = $participants_list . " " . $participant . ","; 
-  }
-  $participants_list = rtrim($participants_list, ",");
-  
-  // Assign all the webhook information
-  $webhooks[$index]->date = $event_datetime;
-  $webhooks[$index]->title = $data->data->object->title;
-  $webhooks[$index]->description = $data->data->object->description;
-  $webhooks[$index]->participants = $participants_list;
-  $webhooks[$index]->status = $data->data->object->status;
+  $webhook->id = $data->data->object->id;
+  $date = $data->data->object->date;
+  $date = new DateTime("@$date");
+  $date = $date->format('Y-m-d H:i:s'); 
+  $webhook->date = $date;
+  $webhook->subject = $data->data->object->subject;
+  $webhook->from_email = $data->data->object->from[0]->email;
+  $webhook->from_name = $data->data->object->from[0]->name;
   // Store the webhook information into the session
-  $db->insert("webhooks", ["webhook" => $webhooks]);*/ 
+  $db->insert("webhooks", ["webhook" => $webhook]); 
   error_log("Webhook was saved");
   // Return success back to Nylas
   response()->status(200)->plain('Webhook received');
