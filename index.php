@@ -39,20 +39,23 @@ $app->post('/webhook', function () use($app, $db) {
   error_log("Calling the Webhook");
   // Read the webhook information
   $json = file_get_contents('php://input', true);
+  error_log($json);
+  
   // Decode the json
   $data = json_decode($json);
-  $is_genuine = verify_signature(file_get_contents('php://input'),
+  error_log($data);
+  /*$is_genuine = verify_signature(file_get_contents('php://input'),
                                  mb_convert_encoding(getenv('CLIENT_SECRET'), 'UTF-8', 'ISO-8859-1'),
                                  request()->headers('X-Nylas-Signature'));
   # Is it really coming from Nylas? 
   if(!$is_genuine){
     response()->status(401)->plain('Signature verification failed!');
     exit();
-  }
+  }*/
   error_log("Time to save the webhook");
 
   // Do we have session information stored?
-  if(isset($_SESSION['webhooks'])){
+  /*if(isset($_SESSION['webhooks'])){
     $webhooks = $_SESSION['webhooks'];
   }else{
     // No, we don't. But we need a variable
@@ -90,7 +93,7 @@ $app->post('/webhook', function () use($app, $db) {
   $webhooks[$index]->participants = $participants_list;
   $webhooks[$index]->status = $data->data->object->status;
   // Store the webhook information into the session
-  $db->insert("webhooks", ["webhook" => $webhooks]); 
+  $db->insert("webhooks", ["webhook" => $webhooks]);*/ 
   error_log("Webhook was saved");
   // Return success back to Nylas
   response()->status(200)->plain('Webhook received');
