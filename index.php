@@ -1,8 +1,5 @@
 <?php
-ini_set('session.save_path', 'data');
-session_start();
-  
-// Load dependencies
+  // Load dependencies
 require __DIR__ . '/vendor/autoload.php';
 require("txtdb.class.php");
 use Leaf\Blade;
@@ -26,28 +23,8 @@ class Webhook
 // Main page
 $app->get('/', function() use($app, $blade, $db){
   // Check our text db for a recorded session
-  $session_id =  $db->select('session');
-  foreach($session_id as $session){
-    // Found one
-    $id = $session["id"];
-  }
-
-  // Do we have a webhook recorded? Do we have a session stored?
-  if(!isset($_SESSION['webhooks']) && count($session_id) > 0){
-    session_destroy();
-    session_id($id);
-    session_start();			
-  }
-  
-  // We do have at least one webhook recorded
-  if(isset($_SESSION['webhooks'])){
-    $webhooks = $_SESSION['webhooks'];
-    // Display it
-    echo $blade->render('webhooks', ['webhooks' => $webhooks]);
-  }else{
-    // Nothing to display yet
-    echo "<h1>Webhooks</h1>";
-  }
+  $webhooks =  $db->select('webhooks');
+  echo $blade->render('webhooks', ['webhooks' => $webhooks]);
 });
 
 // This will be called to validate our webhook
@@ -59,36 +36,18 @@ $app->get('/webhook', function () use($app) {
 
 // Page for the Webhook to send the information to
 $app->post('/webhook', function () use($app, $db) {
-  error_log("Posting the webhook");
-  // Grab the current session id
-  $id = session_id();
-  // Do we have a session recorded?
-  $session_id =  $db->select('session');
-    
-  foreach($session_id as $session){ 
-  // Do have a session
-    $id = $session["id"];
-  }
-    
-  // We have a session but it's not recorded yet	
-  if(isset($session_id) && count($session_id) === 0){
-    $db->insert("session", ["id" => $id]); 
-  }
-  
   // Read the webhook information
   $json = file_get_contents('php://input', true);
   // Decode the json
   $data = json_decode($json);
-  //$is_genuine = verify_signature(file_get_contents('php://input'),
-  //                               mb_convert_encoding(getenv('CLIENT_SECRET'), 'UTF-8', 'ISO-8859-1'),
-  //                               request()->headers('X-Nylas-Signature'));
+  $is_genuine = verify_signature(file_get_contents('php://input'),
+                                 mb_convert_encoding(getenv('CLIENT_SECRET'), 'UTF-8', 'ISO-8859-1'),
+                                 request()->headers('X-Nylas-Signature'));
   # Is it really coming from Nylas? 
-  //error_log("Coming from Nylas " . $is_genuine);
-  error_log("Signature " . request()->headers('X-Nylas-Signature')); 
-  //if(!$is_genuine){
-  //  response()->status(401)->plain('Signature verification failed!');
-  //  exit();
-  //}
+  if(!$is_genuine){
+    response()->status(401)->plain('Signature verification failed!');
+    exit();
+  }
   error_log("Time to save the webhook");
 
   // Do we have session information stored?
@@ -130,7 +89,7 @@ $app->post('/webhook', function () use($app, $db) {
   $webhooks[$index]->participants = $participants_list;
   $webhooks[$index]->status = $data->data->object->status;
   // Store the webhook information into the session
-  $_SESSION['webhooks'] = $webhooks;
+  $db->insert("webhooks", ["webhook" => $webhooks]); 
   error_log("Webhook was saved");
   // Return success back to Nylas
   response()->status(200)->plain('Webhook received');
