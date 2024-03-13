@@ -6,3 +6,4 @@ cookiefile
 *.un~
 .idea
 vendor
+.env
